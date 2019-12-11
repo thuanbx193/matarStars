@@ -27,7 +27,7 @@ import QRCode from "qrcode.react";
 
 // var QRCode = require('qrcode.react');
 // import { makeStyles } from '@material-ui/core/styles';
-class ContractDetai extends React.Component {
+class ContractManagementDetai extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
   };
@@ -549,4 +549,4 @@ class ContractDetai extends React.Component {
     );
   }
 }
-export default withCookies(ContractDetai);
+export default withCookies(ContractManagementDetai);
