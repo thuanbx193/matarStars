@@ -45,3 +45,135 @@ export function insertCarForm(data) {
         });
     });
 }
+export function getCarFormSubmit(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/get_car_form_submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function getinfoByContractId(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/get_info_by_contract_id", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function getListDriverByContractId(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/get_list_driver_by_contract_id", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+// export function getCarFormSubmit(data) {
+//     return new Promise(function(resolve,reject){
+//         fetch("https://matarstars.com/flask/get_car_form_submit", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(data)
+//         }).then(response => 
+//             response.json().then(data => ({
+//                 data: data,
+//                 status: response.status
+//             })
+//         ).then(res => {
+//             resolve(res.data);
+//         }))
+//         .catch(err=>{
+//             reject(err);
+//         });    
+//     });
+// }
+
+export function findDriver(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/find_driver", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+
+export function assignDriver(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/assign_driver", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}

@@ -24,9 +24,9 @@ const Routes = () => {
       <Route exact path="/contractdetai"            component={ContractDetai}/>
       <Route exact path="/contractimporting"        component={ContractImporting}/>
       <Route exact path="/contractmanagement"       component={ContractManagement}/>
-      <Route exact path="/contractmanagementdetai"       component={ContractManagementDetai}/>
+      <Route exact path="/contractmanagementdetai/:id"       component={ContractManagementDetai}/>
       <Route exact path="/qrmanagement"             component={QrManagement}/>
-      <Route exact path="/qrmanagementdetai"             component={QrManagementDetai}/>
+      <Route exact path="/qrmanagementdetai/:id"             component={QrManagementDetai}/>
     </Router>
   );
 };

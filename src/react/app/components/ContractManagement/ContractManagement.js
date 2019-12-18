@@ -2,6 +2,11 @@ import React from 'react';
 import MaterialTable from 'material-table';
 
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import Button from '@material-ui/core/Button';
+
+import {
+  getCarFormSubmit
+}         from '../../apis';
 
 
 class ContractManagement extends React.Component {
@@ -15,28 +20,23 @@ class ContractManagement extends React.Component {
     // const { cookies } = props;
     this.state={
       columns: [
-        { title: 'Name', field: 'name' },
-        { title: 'Surname', field: 'surname' },
-        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-        {
-          title: 'Birth Place',
-          field: 'birthCity',
-          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-        },
+        { title: 'ContactID', field: 'contract_id' },
+        { title: 'Người nhận', field: 'ten_nguoi_nhan' },
+        { title: 'Địa điểm lấy hàng', field: 'diem_lay_hang'},
+        { title: 'Địa điểm giao hàng', field: 'diem_tra_hang'},       
+        { title: 'Trạng thái', field: 'status'},       
       ],
-      data: [
-        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-        {
-          name: 'Zerya Betül',
-          surname: 'Baran',
-          birthYear: 2017,
-          birthCity: 34,
-        },
-      ],
-    };
-
-   
+      data: [],
+    };   
   }
+  async componentWillMount(){
+    let data = {user_email: "namhoai@gmail.com"}
+    let check = await getCarFormSubmit(data);
+    if(check.length >0){
+      this.setState({data:check});
+    }
+  }
+
   render() {
     return (
       <MaterialTable
@@ -47,14 +47,35 @@ class ContractManagement extends React.Component {
           {
             icon: VisibilityIcon,
             tooltip: 'Open',
-            onClick: (event, rowData) => alert("You Open " + rowData.name)
+            onClick: (event, rowData) => {
+            	window.location.href = "/contractmanagementdetai/"+rowData.contract_id;
+            }
           },
-          {
+           {
             icon: 'delete',
             tooltip: 'delete',
-            onClick: (event, rowData) => alert("You delete " + rowData.name)
+            onClick: (event, rowData) => confirm("Bạn có muốn xoá contract này?")
           }          
-        ]}        
+        ]}
+        components={{
+
+          Action: props => (
+            <Button
+              onClick={(event) => {props.action.onClick(event, props.data)
+              	console.log("----",props);
+              }}
+              color="primary"
+              variant="contained"
+              style={{textTransform: 'none',margin:"5px"}}
+              size="small"
+            >
+            {
+            	props.action.tooltip
+            }
+            </Button>
+          ),
+        }
+    	}        
       />
     );
   }

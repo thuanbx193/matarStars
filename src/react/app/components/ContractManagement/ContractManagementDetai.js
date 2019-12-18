@@ -8,6 +8,9 @@ import {
   Grid,
   Button,
   TextField,
+  Card,
+  CardActionArea,
+  CardMedia
 } from '@material-ui/core';
 
 // import {
@@ -25,6 +28,10 @@ import {
 import {default as UUID} from "uuid";
 import QRCode from "qrcode.react";
 
+import {
+  getinfoByContractId,
+  getListDriverByContractId
+}         from '../../apis';
 // var QRCode = require('qrcode.react');
 // import { makeStyles } from '@material-ui/core/styles';
 class ContractManagementDetai extends React.Component {
@@ -36,23 +43,10 @@ class ContractManagementDetai extends React.Component {
     super(props);
     const { cookies } = props;
     this.state={
-      userInfo:{},
       token: cookies.get('token'),
-      // selectedDate:new Date(),
-      // nameConsignor:'',
-      // sdtConsignor:'',
-      // emailConsignor:'',
-      // nameConsignee:'',
-      // sdtConsignee:'',
-      // emailConsignee:'',
-      // carsDescription:'',
-      // amountOfCars:'',
-      // listOfVin:'',
-      // note:'',
-      // placeOfStufging:'',
-
-      // loadingDate:new Date(),
-      // plannedDeliveryDate:new Date(),
+      contractId:props.match.params.id,
+      data:{},
+      listDriver:[],
     };
 
     
@@ -66,114 +60,49 @@ class ContractManagementDetai extends React.Component {
   //   this.setState({nameConsignor: event.target.value});
   // }
 
-  // handleChangeSdtConsignor = (event)=> {
-  //   this.setState({sdtConsignor: event.target.value});
-  // }
-  // handleChangeEmailConsignor = (event)=> {
-  //   this.setState({emailConsignor: event.target.value});
-  // }
-  // handleChangeNameConsignee = (event)=> {
-  //   this.setState({nameConsignee: event.target.value});
-  // }
-  // handleChangeSdtConsignee = (event)=> {
-  //   this.setState({sdtConsignee: event.target.value});
-  // }
-  // handleChangeEmailConsignee = (event)=> {
-  //   this.setState({emailConsignee: event.target.value});
-  // }
-
-  // handleChangeCarsDescription = (event) => {
-  //   this.setState({carsDescription: event.target.value});
-  // }
-
-  // handleChangeAmountOfCars = (event) => {
-  //   this.setState({amountOfCars: event.target.value});
-  // }
-
-  // handleChangeListOfVin = (event) => {
-  //   this.setState({listOfVin: event.target.value});
-  // }
-
-  // handleChangeNote = (event) => {
-  //   this.setState({note: event.target.value});
-  // }
-
-  // handleChangePlaceOfStufging = (event) => {
-  //   this.setState({placeOfStufging: event.target.value});
-  // }
-  // handleChangeLoadingDate = (date) => {
-  //   this.setState({loadingDate: date});
-  // }
-
-  // handlePlannedDeliveryDate = (date) => {
-  //   this.setState({plannedDeliveryDate: date});
-  // }
-
-
-  // async handleSubmit(event) {
-  //   event.preventDefault();
-  //   let param = {
-  //       "contract_id": "matar_car_form_"+UUID.v4().substr(24, UUID.v4().length),
-  //       "ten_nguoi_giao": this.state.nameConsignor,
-  //       "so_dien_thoai_nguoi_giao": this.state.sdtConsignor,
-  //       "email_nguoi_giao": this.state.emailConsignor,
-  //       "ten_nguoi_nhan": this.state.nameConsignee,
-  //       "so_dien_thoai_nguoi_nhan": this.state.sdtConsignee,
-  //       "email_nguoi_nhan": this.state.emailConsignee,
-  //       "mo_ta_oto": this.state.carsDescription,
-  //       "so_luong_oto":  this.state.amountOfCars,
-  //       "danh_sach_vin": this.state.listOfVin,
-  //       "diem_lay_hang": this.state.placeOfStufging,
-  //       "ngay_lay_hang": this.state.loadingDate.getDate()+"-"+this.state.loadingDate.getMonth()+"-"+this.state.loadingDate.getFullYear(),
-  //       "diem_tra_hang": this.state.placeOfDelivery,
-  //       "ngay_tra_hang": this.state.plannedDeliveryDate.getDate()+"-"+this.state.plannedDeliveryDate.getMonth()+"-"+this.state.plannedDeliveryDate.getFullYear()
-  //   }
-  //   let checkInsert = await insertCarForm(param);
-  //   console.log(param);
-  //   console.log("checkInsert--",checkInsert);
-  //   if(checkInsert.status == 201){
-  //     alert(" SUBMIT SUCCESS");
-  //   }else{
-  //     alert(" SUBMIT ERROR");
-  //   }
-  // }
-
   async componentWillMount(){
-    const { cookies } = this.props;
-    if(this.state.token){
-      let checkTokenExpired = await  CheckToken(this.state.token);
-      if(checkTokenExpired && checkTokenExpired.id){
-        this.setState({userInfo: checkTokenExpired});
-      }
-      if(checkTokenExpired && checkTokenExpired.error.status_code == 401){
-        cookies.remove('token');
-        cookies.remove('email');
-        window.location.href ='/login';
-      }
-    }else{
-      window.location.href ='/login';
+    let data = {contract_id: this.state.contractId}
+    let getInfo = await getinfoByContractId(data);
+    let getListDriver = await getListDriverByContractId(data);
+    console.log("check ---1",getInfo);
+    console.log("getListDriver ---1",getListDriver);
+    if(getInfo){
+      this.setState({data:getInfo});
     }
+    if(getListDriver.length > 0){
+      this.setState({listDriver:getListDriver});
+    }
+
   }
 
   render() {
+    console.log('render--',this.state);
     return (
       <Container maxWidth="xl">           
         <div style={{ flexGrow: 1 }}>
           <Grid container spacing={3} style={{marginTop:"20px"}}>              
             <Grid item xs={6} style={{marginTop:"20px"}} >                
-                <Typography variant="h6" align="center" component="h1" gutterBottom>
-                  Contract ID: matar-flc-addkc
+                <Typography variant="h3" align="center" component="h1" gutterBottom>
+                  Contract ID: {this.state.contractId}
                 </Typography>
             </Grid>
             <Grid item xs={6}>
               <Grid container alignItems="flex-start" spacing={2}>
                 <Grid item xs={6}>
-                  <Typography variant="h6" align="center" component="h1" gutterBottom>
+                  <Typography style={{marginTop:"45px"}} variant="h3" align="center" component="h1" gutterBottom>
                     Master Bill
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <QRCode value="http://facebook.github.io/react/" />
+                  <Card style={{maxWidth: "200px"}}>
+                    <CardActionArea>
+                      <CardMedia
+                        style={{height: "200px"}}
+                        image={this.state.data.qr_code_link}
+                        title="Contemplative Reptile"
+                      />
+                    </CardActionArea>
+                  </Card>
                 </Grid>                    
               </Grid>
             </Grid>
@@ -193,8 +122,10 @@ class ContractManagementDetai extends React.Component {
                       id="nameConsignor"
                       label="Tên người giao (Consignor)"
                       name="nameConsignor"
-                      value={this.state.nameConsignor} 
-                      onChange={this.handleChangeNameConsignor}
+                      value={this.state.data.ten_nguoi_giao}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -204,8 +135,11 @@ class ContractManagementDetai extends React.Component {
                       type="number"
                       label="Số điện thoại (Phone Number)"
                       name="sdtConsignor"
-                      value={this.state.sdtConsignor} 
+                      value={this.state.data.so_dien_thoai_nguoi_giao}  
                       onChange={this.handleChangeSdtConsignor}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -216,8 +150,11 @@ class ContractManagementDetai extends React.Component {
                       label="Email"
                       name="emailConsignor"
                       type="email"
-                      value={this.state.emailConsignor} 
+                      value={this.state.data.email_nguoi_giao}  
                       onChange={this.handleChangeEmailConsignor}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -237,10 +174,13 @@ class ContractManagementDetai extends React.Component {
                       required
                       fullWidth
                       id="nameConsignee"
-                      label="Tên người giao (Consignee)"
+                      label="Tên người nhận (Consignee)"
                       name="nameConsignee"
-                      value={this.state.nameConsignee} 
+                      value={this.state.data.ten_nguoi_nhan}
                       onChange={this.handleChangeNameConsignee}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -250,8 +190,11 @@ class ContractManagementDetai extends React.Component {
                       type="number"
                       label="Số điện thoại (Phone Number)"
                       name="sdtConsignee"
-                      value={this.state.sdtConsignee} 
+                      value={this.state.data.so_dien_thoai_nguoi_nhan}
                       onChange={this.handleChangeSdtConsignee}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -262,8 +205,11 @@ class ContractManagementDetai extends React.Component {
                       type="email"                        
                       label="Email"
                       name="emailConsignee"
-                      value={this.state.emailConsignee} 
+                      value={this.state.data.email_nguoi_nhan}
                       onChange={this.handleChangeEmailConsignee}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -283,8 +229,11 @@ class ContractManagementDetai extends React.Component {
                         id="carsDescription"
                         label="Mô tả về ô tô (Car's Description)"
                         name="carsDescription"
-                        value={this.state.carsDescription} 
+                        value={this.state.data.mo_ta_oto} 
                         onChange={this.handleChangeCarsDescription}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -295,8 +244,11 @@ class ContractManagementDetai extends React.Component {
                         label="Số lượng ô tô (Amount Of Cars)"
                         name="amountOfCars"
                         type="number"
-                        value={this.state.amountOfCars} 
+                        value={this.state.data.so_luong_oto} 
                         onChange={this.handleChangeAmountOfCars}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -306,8 +258,11 @@ class ContractManagementDetai extends React.Component {
                         id="listOfVin"
                         label="Danh sách khung, số máy (List Of Vin)"
                         name="listOfVin"
-                        value={this.state.listOfVin} 
+                        value={this.state.data.danh_sach_vin} 
                         onChange={this.handleChangeListOfVin}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -317,8 +272,11 @@ class ContractManagementDetai extends React.Component {
                         id="note"
                         label="Ghi chú (Note)"
                         name="note"
-                        value={this.state.note} 
+                        value={this.state.data.ghi_chu} 
                         onChange={this.handleChangeNote}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </Grid>
                   </Grid>
@@ -330,8 +288,11 @@ class ContractManagementDetai extends React.Component {
                         id="placeOfStufging"
                         label="Địa điểm lấy hàng (Place Of Stufging/Loading)"
                         name="placeOfStufging"
-                        value={this.state.placeOfStufging} 
+                        value={this.state.data.diem_lay_hang} 
                         onChange={this.handleChangePlaceOfStufging}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -341,8 +302,11 @@ class ContractManagementDetai extends React.Component {
                         id="placeOfDelivery"
                         label="Ngày lấy hàng (LoadingDate)"
                         name="placeOfDelivery"
-                        value={this.state.placeOfDelivery} 
+                        value={this.state.data.ngay_lay_hang} 
                         onChange={this.handleChangePlaceOfDelivery}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />                        
                     </Grid>
                     <Grid item xs={12}>
@@ -350,10 +314,13 @@ class ContractManagementDetai extends React.Component {
                         required
                         fullWidth
                         id="placeOfDelivery"
-                        label="Địa điểm tar hàng (Place Of Delivery)"
+                        label="Địa điểm trả hàng (Place Of Delivery)"
                         name="placeOfDelivery"
-                        value={this.state.placeOfDelivery} 
+                        value={this.state.data.diem_tra_hang} 
                         onChange={this.handleChangePlaceOfDelivery}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -363,186 +330,67 @@ class ContractManagementDetai extends React.Component {
                         id="placeOfDelivery"
                         label="Ngày trả hàng (Planned Delivery Date)"
                         name="placeOfDelivery"
-                        value={this.state.placeOfDelivery} 
+                        value={this.state.data.ngay_tra_hang} 
                         onChange={this.handleChangePlaceOfDelivery}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />                        
                     </Grid>
                   </Grid>
                 </Grid>
               </Paper>
             </Grid>       
-            <Grid item xs={6}>
-              <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
-                <Typography variant="h6" align="center" component="h1" gutterBottom>
-                  Thông tin lái xe
-                </Typography>
-                <Grid container alignItems="flex-start" spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="nameConsignee"
-                      label="Họ và tên"
-                      name="nameConsignee"
-                      value={this.state.nameConsignee} 
-                      onChange={this.handleChangeNameConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="number"
-                      label="Số điện thoại (Phone Number)"
-                      name="sdtConsignee"
-                      value={this.state.sdtConsignee} 
-                      onChange={this.handleChangeSdtConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      type="text"                        
-                      label="Loại xe"
-                      name="emailConsignee"
-                      value={this.state.emailConsignee} 
-                      onChange={this.handleChangeEmailConsignee}
-                    />
-                  </Grid>
-                </Grid>
-               </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
-                <Typography variant="h6" align="center" component="h1" gutterBottom>
-                  Thông tin lái xe
-                </Typography>
-                <Grid container alignItems="flex-start" spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="nameConsignee"
-                      label="Họ và tên"
-                      name="nameConsignee"
-                      value={this.state.nameConsignee} 
-                      onChange={this.handleChangeNameConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="number"
-                      label="Số điện thoại (Phone Number)"
-                      name="sdtConsignee"
-                      value={this.state.sdtConsignee} 
-                      onChange={this.handleChangeSdtConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      type="text"                        
-                      label="Loại xe"
-                      name="emailConsignee"
-                      value={this.state.emailConsignee} 
-                      onChange={this.handleChangeEmailConsignee}
-                    />
-                  </Grid>
-                </Grid>
-               </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
-                <Typography variant="h6" align="center" component="h1" gutterBottom>
-                  Thông tin lái xe
-                </Typography>
-                <Grid container alignItems="flex-start" spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="nameConsignee"
-                      label="Họ và tên"
-                      name="nameConsignee"
-                      value={this.state.nameConsignee} 
-                      onChange={this.handleChangeNameConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="number"
-                      label="Số điện thoại (Phone Number)"
-                      name="sdtConsignee"
-                      value={this.state.sdtConsignee} 
-                      onChange={this.handleChangeSdtConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      type="text"                        
-                      label="Loại xe"
-                      name="emailConsignee"
-                      value={this.state.emailConsignee} 
-                      onChange={this.handleChangeEmailConsignee}
-                    />
-                  </Grid>
-                </Grid>
-               </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
-                <Typography variant="h6" align="center" component="h1" gutterBottom>
-                  Thông tin lái xe
-                </Typography>
-                <Grid container alignItems="flex-start" spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="nameConsignee"
-                      label="Họ và tên"
-                      name="nameConsignee"
-                      value={this.state.nameConsignee} 
-                      onChange={this.handleChangeNameConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="number"
-                      label="Số điện thoại (Phone Number)"
-                      name="sdtConsignee"
-                      value={this.state.sdtConsignee} 
-                      onChange={this.handleChangeSdtConsignee}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      type="text"                        
-                      label="Loại xe"
-                      name="emailConsignee"
-                      value={this.state.emailConsignee} 
-                      onChange={this.handleChangeEmailConsignee}
-                    />
-                  </Grid>
-                </Grid>
-               </Paper>
-            </Grid>       
+                  
+            {
+              this.state.listDriver.map((value, key) => {
+                  return (
+                      <Grid item xs={6}>
+                        <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
+                          <Typography variant="h6" align="center" component="h1" gutterBottom>
+                            Thông tin lái xe
+                          </Typography>
+                          <Grid container alignItems="flex-start" spacing={2}>
+                            <Grid item xs={12}>
+                              <TextField
+                                required
+                                fullWidth
+                                id="nameConsignee"
+                                label="Họ và tên"
+                                name="nameConsignee"
+                                value={value.name} 
+                                onChange={this.handleChangeNameConsignee}
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <TextField
+                                required
+                                fullWidth
+                                type="number"
+                                label="Số điện thoại (Phone Number)"
+                                name="sdtConsignee"
+                                value={value.phone_number} 
+                                onChange={this.handleChangeSdtConsignee}
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                type="text"                        
+                                label="Loại xe"
+                                name="emailConsignee"
+                                value={value.car_type} 
+                                onChange={this.handleChangeEmailConsignee}
+                              />
+                            </Grid>
+                          </Grid>
+                         </Paper>
+                      </Grid>  
+                  );
+              })
+            }        
           </Grid>
         </div>
       </Container>

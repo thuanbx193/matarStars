@@ -24,6 +24,10 @@ import {
 }         from '../../apis';
 import {default as UUID} from "uuid";
 import QRCode from "qrcode.react";
+import {
+  findDriver,
+  assignDriver
+}         from '../../apis';
 
 // var QRCode = require('qrcode.react');
 // import { makeStyles } from '@material-ui/core/styles';
@@ -38,7 +42,9 @@ class QrManagementDetai extends React.Component {
     this.state={
       userInfo:{},
       token: cookies.get('token'),
+      contractId:props.match.params.id,
       driverEmail:'',
+      driverEmailQR:'',
       // nameConsignor:'',
       // sdtConsignor:'',
       // emailConsignor:'',
@@ -56,86 +62,52 @@ class QrManagementDetai extends React.Component {
     };
 
     
-    // this.handleSubmit=this.handleSubmit.bind(this);
+    this.handleSubmitSeach=this.handleSubmitSeach.bind(this);
+    this.handleSubmitAssign=this.handleSubmitAssign.bind(this);
   }
 
-  // handleDateChange = (date) => {
-  //   this.setState({selectedDate: date});
-  // }
-  // handleChangeNameConsignor = (event)=> {
-  //   this.setState({nameConsignor: event.target.value});
-  // }
+  async handleSubmitSeach(){
+    event.preventDefault();
+    let data = {driver_email: this.state.driverEmail}
+    let find = await findDriver(data);
+    console.log("check----",check);
+    if(find.status == 400){
+      alert("xin lỗi không tìm thấy email tài xế yêu cầu,\n vui lòng nhập lại");
+    }else{
+      alert("Thông tin tài xế \n Tên:"+find.name+" \n SĐT:"+find.phone_number+"\n Loại xe: "+ find.car_type);
+    }
+  }
+
+  async handleSubmitAssign(){
+    event.preventDefault();
+    
+    let find = await findDriver({driver_email: this.state.driverEmailQR});
+    if(find.status == 400){
+      alert("xin lỗi không tìm thấy email tài xế yêu cầu,\n vui lòng nhập lại");
+    }else{
+      let data = {
+        driver_email: this.state.driverEmailQR,
+        contract_id:this.state.contractId
+      }
+      let checkConfirm = confirm("Bạn có muốn gán đơn hàng này cho tài xế \n "+find.name+",\n SĐT:"+find.phone_number);
+      if(checkConfirm){
+        let assign = await assignDriver(data);
+      }
+    }
+  }
+
+  handleChangeDriverEmail = ()=> {
+    this.setState({driverEmail: event.target.value});
+  }
+  handleChangeDriverEmailQR = ()=> {
+    this.setState({driverEmailQR: event.target.value});
+  }
 
   // handleChangeSdtConsignor = (event)=> {
   //   this.setState({sdtConsignor: event.target.value});
   // }
   // handleChangeEmailConsignor = (event)=> {
   //   this.setState({emailConsignor: event.target.value});
-  // }
-  // handleChangeNameConsignee = (event)=> {
-  //   this.setState({nameConsignee: event.target.value});
-  // }
-  // handleChangeSdtConsignee = (event)=> {
-  //   this.setState({sdtConsignee: event.target.value});
-  // }
-  // handleChangeEmailConsignee = (event)=> {
-  //   this.setState({emailConsignee: event.target.value});
-  // }
-
-  // handleChangeCarsDescription = (event) => {
-  //   this.setState({carsDescription: event.target.value});
-  // }
-
-  // handleChangeAmountOfCars = (event) => {
-  //   this.setState({amountOfCars: event.target.value});
-  // }
-
-  // handleChangeListOfVin = (event) => {
-  //   this.setState({listOfVin: event.target.value});
-  // }
-
-  // handleChangeNote = (event) => {
-  //   this.setState({note: event.target.value});
-  // }
-
-  // handleChangePlaceOfStufging = (event) => {
-  //   this.setState({placeOfStufging: event.target.value});
-  // }
-  // handleChangeLoadingDate = (date) => {
-  //   this.setState({loadingDate: date});
-  // }
-
-  // handlePlannedDeliveryDate = (date) => {
-  //   this.setState({plannedDeliveryDate: date});
-  // }
-
-
-  // async handleSubmit(event) {
-  //   event.preventDefault();
-  //   let param = {
-  //       "contract_id": "matar_car_form_"+UUID.v4().substr(24, UUID.v4().length),
-  //       "ten_nguoi_giao": this.state.nameConsignor,
-  //       "so_dien_thoai_nguoi_giao": this.state.sdtConsignor,
-  //       "email_nguoi_giao": this.state.emailConsignor,
-  //       "ten_nguoi_nhan": this.state.nameConsignee,
-  //       "so_dien_thoai_nguoi_nhan": this.state.sdtConsignee,
-  //       "email_nguoi_nhan": this.state.emailConsignee,
-  //       "mo_ta_oto": this.state.carsDescription,
-  //       "so_luong_oto":  this.state.amountOfCars,
-  //       "danh_sach_vin": this.state.listOfVin,
-  //       "diem_lay_hang": this.state.placeOfStufging,
-  //       "ngay_lay_hang": this.state.loadingDate.getDate()+"-"+this.state.loadingDate.getMonth()+"-"+this.state.loadingDate.getFullYear(),
-  //       "diem_tra_hang": this.state.placeOfDelivery,
-  //       "ngay_tra_hang": this.state.plannedDeliveryDate.getDate()+"-"+this.state.plannedDeliveryDate.getMonth()+"-"+this.state.plannedDeliveryDate.getFullYear()
-  //   }
-  //   let checkInsert = await insertCarForm(param);
-  //   console.log(param);
-  //   console.log("checkInsert--",checkInsert);
-  //   if(checkInsert.status == 201){
-  //     alert(" SUBMIT SUCCESS");
-  //   }else{
-  //     alert(" SUBMIT ERROR");
-  //   }
   // }
 
   async componentWillMount(){
@@ -178,7 +150,7 @@ class QrManagementDetai extends React.Component {
               </Grid>
             </Grid>
             <Grid item xs={6}>   
-              <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmit}  noValidate>             
+              <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmitAssign}  noValidate>             
                <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
                 <Typography variant="h4" align="center" component="h1" gutterBottom>
                   Gán QR Code cho lái xe
@@ -189,11 +161,11 @@ class QrManagementDetai extends React.Component {
                       required
                       fullWidth
                       variant="outlined"
-                      id="driverEmail"
+                      id="driverEmailQR"
                       label="Driver Email"
                       name="nameConsignor"
-                      value={this.state.driverEmail} 
-                      onChange={this.handleChangeDriverEmail}
+                      value={this.state.driverEmailQR} 
+                      onChange={this.handleChangeDriverEmailQR}
                     />
                   </Grid>
                 </Grid>
@@ -210,10 +182,10 @@ class QrManagementDetai extends React.Component {
               </form>
             </Grid>
             <Grid item xs={6}>
-              <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmit}  noValidate>             
+              <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmitSeach}  noValidate>             
                <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
                 <Typography variant="h4" align="center" component="h1" gutterBottom>
-                  Time kiếm lai xe
+                  Tìm kiếm lái xe
                 </Typography>
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>

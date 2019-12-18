@@ -27,6 +27,8 @@ class Loginpage extends React.Component {
     this.state={
       email: '',
       password:'',
+      emailError: 0,
+      passwordError: 0 ,
       token: cookies.get('token')
     };
 
@@ -37,15 +39,24 @@ class Loginpage extends React.Component {
 
   handleChangeEmail(event) {
     this.setState({email: event.target.value});
+    this.setState({emailError:0})
   }
 
   handleChangePass(event) {
     this.setState({password: event.target.value});
+    this.setState({passwordError:0})
   }
 
 
   handleSubmit(event) {
+  	event.preventDefault();
     const { cookies } = this.props;
+    if(!this.state.email){
+    	this.setState({emailError:1})
+    }
+    if(!this.state.password){
+    	this.setState({passwordError:1})
+    }
     if(this.state.email && this.state.password){
       fetch("https://matarstars.com/v1/api/auth/login", {
           headers: {
@@ -65,7 +76,7 @@ class Loginpage extends React.Component {
       });    
 
     }
-    event.preventDefault();
+    
   }
 
   async componentWillMount(){
@@ -77,7 +88,7 @@ class Loginpage extends React.Component {
       if(checkTokenExpired && checkTokenExpired.id){
         window.location.href ='/home';
       }
-      if(checkTokenExpired && checkTokenExpired.error.status_code == 401){
+      if(checkTokenExpired && checkTokenExpired.error.status_code === 401){
         cookies.remove('token');
         cookies.remove('email');
       }
@@ -108,6 +119,7 @@ class Loginpage extends React.Component {
               autoFocus
               value={this.state.value} 
               onChange={this.handleChangeEmail}
+              error = {this.state.emailError===1 ? true : false}
             />
             <TextField
               variant="outlined"
@@ -121,6 +133,7 @@ class Loginpage extends React.Component {
               autoComplete="current-password"
               value={this.state.value} 
               onChange={this.handleChangePass}
+              error = {this.state.passwordError === 1 ? true : false}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
