@@ -119,7 +119,7 @@ class Loginpage extends React.Component {
               autoFocus
               value={this.state.value} 
               onChange={this.handleChangeEmail}
-              error = {this.state.emailError===1 ? true : false}
+              error={this.state.emailError ===1 ? true : false}
             />
             <TextField
               variant="outlined"
@@ -133,7 +133,7 @@ class Loginpage extends React.Component {
               autoComplete="current-password"
               value={this.state.value} 
               onChange={this.handleChangePass}
-              error = {this.state.passwordError === 1 ? true : false}
+              error={this.state.passwordError === 1 ? true : false}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

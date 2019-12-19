@@ -77,33 +77,19 @@ class Headpage extends React.Component {
 
   async componentWillMount(){
     let pathName = window.location.pathname;
-    switch(pathName) {
-      case "/contractimporting":
-        this.setState({value:0})
-        break;
-      case "/contractdetai":
-        this.setState({value:1})
-        break
-      case "/contractmanagement":
-        this.setState({value:1})
-        break
-      case "/contractmanagementdetai":
-        this.setState({value:1})
-        break
-      case "/qrmanagement":
-        this.setState({value:2})
-        break
-      case "/qrmanagementdetai":
-        this.setState({value:2})
-        break
-      default:
-        // code block
+    if(pathName.indexOf("contractimporting") > -1){
+      this.setState({value:0})
+    }
+    if(pathName.indexOf("contractmanagement") > -1){
+      this.setState({value:1})
+    }
+    if(pathName.indexOf("qrmanagement") > -1){
+      this.setState({value:2})
     }
     if(pathName !=='/login'){
        const { cookies } = this.props;
       if(this.state.token){
         let checkTokenExpired = await  CheckToken(this.state.token);
-        console.log(checkTokenExpired);
         if(checkTokenExpired.error && checkTokenExpired.error.status_code === 401){
           cookies.remove('token');
           cookies.remove('email');

@@ -83,7 +83,7 @@ class Homepage extends React.Component {
     if(this.state.token){
       let checkTokenExpired = await  CheckToken(this.state.token);
       console.log(checkTokenExpired);
-      if(checkTokenExpired.error && checkTokenExpired.error.status_code == 401){
+      if(checkTokenExpired.error && checkTokenExpired.error.status_code === 401){
         cookies.remove('token');
         cookies.remove('email');
         window.location.href ='/login';

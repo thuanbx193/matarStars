@@ -6,27 +6,11 @@ import {
   Typography,
   Paper,
   Grid,
-  Button,
   TextField,
   Card,
   CardActionArea,
   CardMedia
 } from '@material-ui/core';
-
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardDatePicker,
-//   // TimePicker,
-//   // DatePicker,
-// } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-
-import {
-  CheckToken,
-  insertCarForm
-}         from '../../apis';
-import {default as UUID} from "uuid";
-import QRCode from "qrcode.react";
 
 import {
   getinfoByContractId,
@@ -64,8 +48,6 @@ class ContractManagementDetai extends React.Component {
     let data = {contract_id: this.state.contractId}
     let getInfo = await getinfoByContractId(data);
     let getListDriver = await getListDriverByContractId(data);
-    console.log("check ---1",getInfo);
-    console.log("getListDriver ---1",getListDriver);
     if(getInfo){
       this.setState({data:getInfo});
     }
@@ -76,7 +58,6 @@ class ContractManagementDetai extends React.Component {
   }
 
   render() {
-    console.log('render--',this.state);
     return (
       <Container maxWidth="xl">           
         <div style={{ flexGrow: 1 }}>
@@ -117,6 +98,7 @@ class ContractManagementDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignor"
@@ -130,6 +112,7 @@ class ContractManagementDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -144,6 +127,7 @@ class ContractManagementDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -171,6 +155,7 @@ class ContractManagementDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignee"
@@ -185,6 +170,7 @@ class ContractManagementDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -199,6 +185,7 @@ class ContractManagementDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -220,10 +207,11 @@ class ContractManagementDetai extends React.Component {
                 <Typography variant="h6" align="center" component="h1" gutterBottom>
                   Thông tin hàng hoá
                 </Typography>
-                <Grid container spacing={3}>
+                <Grid container alignItems="flex-start" spacing={3}>
                   <Grid item xs={6}>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="carsDescription"
@@ -236,8 +224,9 @@ class ContractManagementDetai extends React.Component {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{marginTop:"16px"}}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="amountOfCars"
@@ -251,8 +240,9 @@ class ContractManagementDetai extends React.Component {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{marginTop:"16px"}}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="listOfVin"
@@ -265,8 +255,9 @@ class ContractManagementDetai extends React.Component {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{marginTop:"16px"}}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="note"
@@ -283,6 +274,7 @@ class ContractManagementDetai extends React.Component {
                   <Grid item xs={6}>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfStufging"
@@ -295,8 +287,9 @@ class ContractManagementDetai extends React.Component {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{marginTop:"16px"}}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfDelivery"
@@ -309,8 +302,9 @@ class ContractManagementDetai extends React.Component {
                         }}
                       />                        
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{marginTop:"16px"}}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfDelivery"
@@ -323,8 +317,9 @@ class ContractManagementDetai extends React.Component {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                       <TextField
+                    <Grid item xs={12} style={{marginTop:"16px"}}>
+                      <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfDelivery"
@@ -353,6 +348,7 @@ class ContractManagementDetai extends React.Component {
                           <Grid container alignItems="flex-start" spacing={2}>
                             <Grid item xs={12}>
                               <TextField
+                                variant="outlined"
                                 required
                                 fullWidth
                                 id="nameConsignee"
@@ -364,6 +360,7 @@ class ContractManagementDetai extends React.Component {
                             </Grid>
                             <Grid item xs={12}>
                               <TextField
+                                variant="outlined"
                                 required
                                 fullWidth
                                 type="number"
@@ -375,6 +372,7 @@ class ContractManagementDetai extends React.Component {
                             </Grid>
                             <Grid item xs={12}>
                               <TextField
+                                variant="outlined"
                                 margin="normal"
                                 required
                                 fullWidth

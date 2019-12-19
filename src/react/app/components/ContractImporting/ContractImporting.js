@@ -129,7 +129,7 @@ class ContractImporting extends React.Component {
     let checkInsert = await insertCarForm(param);
     console.log(param);
     console.log("checkInsert--",checkInsert);
-    if(checkInsert.status == 201){
+    if(checkInsert.status === 201){
       alert(" SUBMIT SUCCESS");
     }else{
       alert(" SUBMIT ERROR");
@@ -143,7 +143,7 @@ class ContractImporting extends React.Component {
       if(checkTokenExpired && checkTokenExpired.id){
         this.setState({userInfo: checkTokenExpired});
       }
-      if(checkTokenExpired && checkTokenExpired.error.status_code == 401){
+      if(checkTokenExpired && checkTokenExpired.error.status_code === 401){
         cookies.remove('token');
         cookies.remove('email');
         window.location.href ='/login';
@@ -170,6 +170,7 @@ class ContractImporting extends React.Component {
                   <Grid container alignItems="flex-start" spacing={2}>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="nameConsignor"
@@ -181,6 +182,7 @@ class ContractImporting extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         type="number"
@@ -192,6 +194,7 @@ class ContractImporting extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         margin="normal"
                         required
                         fullWidth
@@ -216,6 +219,7 @@ class ContractImporting extends React.Component {
                   <Grid container alignItems="flex-start" spacing={2}>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="nameConsignee"
@@ -227,6 +231,7 @@ class ContractImporting extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         type="number"
@@ -238,6 +243,7 @@ class ContractImporting extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         margin="normal"
                         required
                         fullWidth
@@ -258,8 +264,9 @@ class ContractImporting extends React.Component {
                   </Typography>
                   <Grid container spacing={3}>
                     <Grid item xs={6}>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{marginTop:"16px"}}>
                         <TextField
+                          variant="outlined"
                           required
                           fullWidth
                           id="carsDescription"
@@ -269,8 +276,9 @@ class ContractImporting extends React.Component {
                           onChange={this.handleChangeCarsDescription}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{marginTop:"16px"}}>
                         <TextField
+                          variant="outlined"
                           required
                           fullWidth
                           id="amountOfCars"
@@ -281,8 +289,9 @@ class ContractImporting extends React.Component {
                           onChange={this.handleChangeAmountOfCars}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{marginTop:"16px"}}>
                         <TextField
+                          variant="outlined"
                           required
                           fullWidth
                           id="listOfVin"
@@ -292,8 +301,9 @@ class ContractImporting extends React.Component {
                           onChange={this.handleChangeListOfVin}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{marginTop:"16px"}}>
                         <TextField
+                          variant="outlined"
                           required
                           fullWidth
                           id="note"
@@ -305,8 +315,9 @@ class ContractImporting extends React.Component {
                       </Grid>
                     </Grid>
                     <Grid item xs={6}>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{marginTop:"16px"}}>
                         <TextField
+                          variant="outlined"
                           required
                           fullWidth
                           id="placeOfStufging"
@@ -316,7 +327,7 @@ class ContractImporting extends React.Component {
                           onChange={this.handleChangePlaceOfStufging}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} >
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <KeyboardDatePicker
                             fullWidth
@@ -333,8 +344,9 @@ class ContractImporting extends React.Component {
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{marginTop:"16px"}}>
                         <TextField
+                          variant="outlined"
                           required
                           fullWidth
                           id="placeOfDelivery"
@@ -344,7 +356,7 @@ class ContractImporting extends React.Component {
                           onChange={this.handleChangePlaceOfDelivery}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} >
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <KeyboardDatePicker
                             fullWidth

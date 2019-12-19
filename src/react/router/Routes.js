@@ -5,7 +5,6 @@ import {
 }   from "react-router-dom";
 import { browserHistory }   from "react-dom";
 import {
-    Homepage,
     Loginpage,
     ContractDetai,
     Headpage,

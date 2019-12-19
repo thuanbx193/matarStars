@@ -6,23 +6,12 @@ import {
   Typography,
   Paper,
   Grid,
-  Button,
   TextField,
 } from '@material-ui/core';
 
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardDatePicker,
-//   // TimePicker,
-//   // DatePicker,
-// } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-
 import {
-  CheckToken,
-  insertCarForm
+  CheckToken
 }         from '../../apis';
-import {default as UUID} from "uuid";
 import QRCode from "qrcode.react";
 
 // var QRCode = require('qrcode.react');
@@ -145,7 +134,7 @@ class ContractDetai extends React.Component {
       if(checkTokenExpired && checkTokenExpired.id){
         this.setState({userInfo: checkTokenExpired});
       }
-      if(checkTokenExpired && checkTokenExpired.error.status_code == 401){
+      if(checkTokenExpired && checkTokenExpired.error.status_code === 401){
         cookies.remove('token');
         cookies.remove('email');
         window.location.href ='/login';
@@ -188,6 +177,7 @@ class ContractDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignor"
@@ -199,6 +189,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -210,6 +201,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -234,6 +226,7 @@ class ContractDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignee"
@@ -245,6 +238,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -256,6 +250,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -278,6 +273,7 @@ class ContractDetai extends React.Component {
                   <Grid item xs={6}>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="carsDescription"
@@ -289,6 +285,7 @@ class ContractDetai extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="amountOfCars"
@@ -301,6 +298,7 @@ class ContractDetai extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="listOfVin"
@@ -312,6 +310,7 @@ class ContractDetai extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="note"
@@ -325,6 +324,7 @@ class ContractDetai extends React.Component {
                   <Grid item xs={6}>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfStufging"
@@ -336,6 +336,7 @@ class ContractDetai extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfDelivery"
@@ -347,6 +348,7 @@ class ContractDetai extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfDelivery"
@@ -358,6 +360,7 @@ class ContractDetai extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                        <TextField
+                        variant="outlined"
                         required
                         fullWidth
                         id="placeOfDelivery"
@@ -379,6 +382,7 @@ class ContractDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignee"
@@ -390,6 +394,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -401,6 +406,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -422,6 +428,7 @@ class ContractDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignee"
@@ -433,6 +440,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -444,6 +452,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -465,6 +474,7 @@ class ContractDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignee"
@@ -476,6 +486,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -487,6 +498,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth
@@ -508,6 +520,7 @@ class ContractDetai extends React.Component {
                 <Grid container alignItems="flex-start" spacing={2}>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       id="nameConsignee"
@@ -519,6 +532,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       required
                       fullWidth
                       type="number"
@@ -530,6 +544,7 @@ class ContractDetai extends React.Component {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
+                      variant="outlined"
                       margin="normal"
                       required
                       fullWidth

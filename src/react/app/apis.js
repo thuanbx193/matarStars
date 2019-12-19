@@ -177,3 +177,47 @@ export function assignDriver(data) {
         });    
     });
 }
+
+export function updateContractStatus(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/update_contract_status", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function createDriver(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/create_driver", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
