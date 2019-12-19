@@ -60,7 +60,7 @@ class ContractManagement extends React.Component {
            {
             icon: 'delete',
             tooltip: 'delete',
-            onClick: (event, rowData) => confirm("Bạn có muốn xoá contract này?")
+            onClick: (event, rowData) => window.confirm("Bạn có muốn xoá contract này?")
           }          
         ]}
         components={{

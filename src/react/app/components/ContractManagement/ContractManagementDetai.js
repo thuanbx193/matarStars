@@ -48,85 +48,85 @@ class ContractManagementDetai extends React.Component {
 
   }  
 
-  handleChangeNameConsignor =() =>{
+  handleChangeNameConsignor =(event) =>{
     let data  = this.state.data;
     data.ten_nguoi_giao = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeSdtConsignor =() =>{
+  handleChangeSdtConsignor =(event) =>{
     let data  = this.state.data;
     data.so_dien_thoai_nguoi_giao = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeEmailConsignor =() =>{
+  handleChangeEmailConsignor =(event) =>{
     let data  = this.state.data;
     data.email_nguoi_giao = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeNameConsignee =() =>{
+  handleChangeNameConsignee =(event) =>{
     let data  = this.state.data;
     data.ten_nguoi_nhan = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeSdtConsignee =() =>{
+  handleChangeSdtConsignee =(event) =>{
     let data  = this.state.data;
     data.so_dien_thoai_nguoi_nhan = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeEmailConsignee =() =>{
+  handleChangeEmailConsignee =(event) =>{
     let data  = this.state.data;
     data.email_nguoi_nhan = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeCarsDescription =() =>{
+  handleChangeCarsDescription =(event) =>{
     let data  = this.state.data;
     data.mo_ta_oto = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeAmountOfCars =() =>{
+  handleChangeAmountOfCars =(event) =>{
     let data  = this.state.data;
     data.so_luong_oto = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeListOfVin =() =>{
+  handleChangeListOfVin =(event) =>{
     let data  = this.state.data;
     data.danh_sach_vin = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeNote =() =>{
+  handleChangeNote =(event) =>{
     let data  = this.state.data;
     data.ghi_chu = event.target.value
     this.setState({data: data});
   }
 
-  handleChangePlaceOfStufging =() =>{
+  handleChangePlaceOfStufging =(event) =>{
     let data  = this.state.data;
     data.diem_lay_hang = event.target.value
     this.setState({data: data});
   }
 
-  handleChangeLoadingDate =() =>{
+  handleChangeLoadingDate =(event) =>{
     let data  = this.state.data;
     data.ngay_lay_hang = event.target.value
     this.setState({data: data});
   }
 
-  handleChangePlaceOfDelivery =() =>{
+  handleChangePlaceOfDelivery =(event) =>{
     let data  = this.state.data;
     data.diem_tra_hang = event.target.value
     this.setState({data: data});
   }
 
-  handleChangePlannedDeliveryDate =() =>{
+  handleChangePlannedDeliveryDate =(event) =>{
     let data  = this.state.data;
     data.ngay_tra_hang = event.target.value
     this.setState({data: data});

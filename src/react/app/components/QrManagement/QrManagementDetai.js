@@ -52,7 +52,7 @@ class QrManagementDetai extends React.Component {
     this.handleSubmitAddDriver=this.handleSubmitAddDriver.bind(this);
   }
 
-  async handleSubmitAddDriver(){
+  async handleSubmitAddDriver(event){
     event.preventDefault();
     if(!this.state.addDriverName || !this.state.addDriverSDT || !this.state.addDriverType || !this.state.addDriverEmail){
       alert("Vui lòng điền đủ thông tin");
@@ -72,7 +72,7 @@ class QrManagementDetai extends React.Component {
     }
   }
 
-  async handleSubmitStatusUpdate(){
+  async handleSubmitStatusUpdate(event){
     event.preventDefault();
     if(!this.state.statusUpdate){
       alert("Vui lòng điền trạng thái");
@@ -90,7 +90,7 @@ class QrManagementDetai extends React.Component {
       }
   }
 
-  async handleSubmitSeach(){
+  async handleSubmitSeach(event){
     event.preventDefault();
     let data = {driver_email: this.state.driverEmail}
     let find = await findDriver(data);
@@ -101,7 +101,7 @@ class QrManagementDetai extends React.Component {
     }
   }
 
-  async handleSubmitAssign(){
+  async handleSubmitAssign(event){
     event.preventDefault();
     
     let find = await findDriver({driver_email: this.state.driverEmailQR});
@@ -112,7 +112,7 @@ class QrManagementDetai extends React.Component {
         driver_email: this.state.driverEmailQR,
         contract_id:this.state.contractId
       }
-      let checkConfirm = confirm("Bạn có muốn gán đơn hàng này cho tài xế \n "+find.name+",\n SĐT:"+find.phone_number);
+      let checkConfirm = window.confirm("Bạn có muốn gán đơn hàng này cho tài xế \n "+find.name+",\n SĐT:"+find.phone_number);
       if(checkConfirm){
         let assign = await assignDriver(data);
         if(assign.status === 200){
@@ -124,25 +124,25 @@ class QrManagementDetai extends React.Component {
     }
   }
 
-  handleChangeDriverEmail = ()=> {
+  handleChangeDriverEmail = (event)=> {
     this.setState({driverEmail: event.target.value});
   }
-  handleChangeDriverEmailQR = ()=> {
+  handleChangeDriverEmailQR = (event)=> {
     this.setState({driverEmailQR: event.target.value});
   }
-  handleChangeStatusUpdate = ()=> {
+  handleChangeStatusUpdate = (event)=> {
     this.setState({statusUpdate: event.target.value});
   }
-  handleChangeAddDriverName = ()=> {
+  handleChangeAddDriverName = (event)=> {
     this.setState({addDriverName: event.target.value});
   }
-  handleChangeAddDriverEmail = ()=> {
+  handleChangeAddDriverEmail = (event)=> {
     this.setState({addDriverEmail: event.target.value});
   }
-  handleChangeAddDriverSDT = ()=> {
+  handleChangeAddDriverSDT = (event)=> {
     this.setState({addDriverSDT: event.target.value});
   }
-  handleChangeAddDriverType = ()=> {
+  handleChangeAddDriverType = (event)=> {
     this.setState({addDriverType: event.target.value});
   }
   async componentWillMount(){
