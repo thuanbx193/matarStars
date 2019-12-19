@@ -124,7 +124,10 @@ class ContractImporting extends React.Component {
         "diem_lay_hang": this.state.placeOfStufging,
         "ngay_lay_hang": this.state.loadingDate.getDate()+"-"+this.state.loadingDate.getMonth()+"-"+this.state.loadingDate.getFullYear(),
         "diem_tra_hang": this.state.placeOfDelivery,
-        "ngay_tra_hang": this.state.plannedDeliveryDate.getDate()+"-"+this.state.plannedDeliveryDate.getMonth()+"-"+this.state.plannedDeliveryDate.getFullYear()
+        "ngay_tra_hang": this.state.plannedDeliveryDate.getDate()+"-"+this.state.plannedDeliveryDate.getMonth()+"-"+this.state.plannedDeliveryDate.getFullYear(),
+        "user_email": this.state.userInfo.email,
+        "status": "submitted",
+        "ghi_chu": this.state.ghi_chu
     }
     let checkInsert = await insertCarForm(param);
     console.log(param);

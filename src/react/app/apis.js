@@ -221,3 +221,26 @@ export function createDriver(data) {
         });    
     });
 }
+
+
+export function updateContractById(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/update_contract_by_id", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}

@@ -4,3 +4,4 @@ export * from "./Home";
 export * from "./Login";
 export * from "./Head";
 export * from "./QrManagement";
+export * from "./NotFound";

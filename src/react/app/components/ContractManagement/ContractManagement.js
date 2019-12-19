@@ -1,24 +1,26 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-
+import { instanceOf } from 'prop-types';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Button from '@material-ui/core/Button';
 
 import {
-  getCarFormSubmit
+  getCarFormSubmit,
+  CheckToken
 }         from '../../apis';
-
+import { withCookies, Cookies } from 'react-cookie';
 
 class ContractManagement extends React.Component {
-// export default function MaterialTableDemo() {
-  // static propTypes = {
-  //   cookies: instanceOf(Cookies).isRequired
-  // };
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
 
   constructor(props) {
     super(props);
-    // const { cookies } = props;
+    const { cookies } = props;
     this.state={
+      token: cookies.get('token'),
+      userInfo:{},
       columns: [
         { title: 'ContactID', field: 'contract_id' },
         { title: 'Người nhận', field: 'ten_nguoi_nhan' },
@@ -30,11 +32,15 @@ class ContractManagement extends React.Component {
     };   
   }
   async componentWillMount(){
-    let data = {user_email: "namhoai@gmail.com"}
+    let checkTokenExpired = await  CheckToken(this.state.token);
+    if(checkTokenExpired && checkTokenExpired.id){
+      this.setState({userInfo: checkTokenExpired});
+    }
+    let data = {user_email:checkTokenExpired.email}
     let check = await getCarFormSubmit(data);
     if(check.length >0){
       this.setState({data:check});
-    }
+    }    
   }
 
   render() {
@@ -62,7 +68,6 @@ class ContractManagement extends React.Component {
           Action: props => (
             <Button
               onClick={(event) => {props.action.onClick(event, props.data)
-              	console.log("----",props);
               }}
               color="primary"
               variant="contained"
@@ -81,4 +86,4 @@ class ContractManagement extends React.Component {
   }
 }
 
-export default ContractManagement;
+export default withCookies(ContractManagement);

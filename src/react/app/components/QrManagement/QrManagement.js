@@ -1,23 +1,26 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-
+import { instanceOf } from 'prop-types';
 import Button from '@material-ui/core/Button';
+import { withCookies, Cookies } from 'react-cookie';
 
 import {
-  getCarFormSubmit
+  getCarFormSubmit,
+  CheckToken
 }         from '../../apis';
 
 
 class QrManagement extends React.Component {
-// export default function MaterialTableDemo() {
-  // static propTypes = {
-  //   cookies: instanceOf(Cookies).isRequired
-  // };
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
 
   constructor(props) {
     super(props);
-    // const { cookies } = props;
+    const { cookies } = props;
     this.state={
+      token: cookies.get('token'),
+      userInfo:{},
       columns: [
         { title: 'ContactID', field: 'contract_id' },
         { title: 'Người nhận', field: 'ten_nguoi_nhan' },
@@ -29,7 +32,11 @@ class QrManagement extends React.Component {
     };   
   }
   async componentWillMount(){
-    let data = {user_email: "namhoai@gmail.com"}
+    let checkTokenExpired = await  CheckToken(this.state.token);
+    if(checkTokenExpired && checkTokenExpired.id){
+      this.setState({userInfo: checkTokenExpired});
+    }
+    let data = {user_email:checkTokenExpired.email}
     let check = await getCarFormSubmit(data);
     if(check.length >0){
       this.setState({data:check});
@@ -75,4 +82,4 @@ class QrManagement extends React.Component {
   }
 }
 
-export default QrManagement;
+export default withCookies(QrManagement);

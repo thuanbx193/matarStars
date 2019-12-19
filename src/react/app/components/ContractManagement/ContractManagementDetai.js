@@ -9,15 +9,16 @@ import {
   TextField,
   Card,
   CardActionArea,
-  CardMedia
+  CardMedia,
+  Button
 } from '@material-ui/core';
 
 import {
   getinfoByContractId,
-  getListDriverByContractId
+  getListDriverByContractId,
+  updateContractById
 }         from '../../apis';
-// var QRCode = require('qrcode.react');
-// import { makeStyles } from '@material-ui/core/styles';
+
 class ContractManagementDetai extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -32,17 +33,105 @@ class ContractManagementDetai extends React.Component {
       data:{},
       listDriver:[],
     };
-
+    this.handleUpdate=this.handleUpdate.bind(this);
     
-    // this.handleSubmit=this.handleSubmit.bind(this);
   }
 
-  // handleDateChange = (date) => {
-  //   this.setState({selectedDate: date});
-  // }
-  // handleChangeNameConsignor = (event)=> {
-  //   this.setState({nameConsignor: event.target.value});
-  // }
+
+
+  async handleUpdate(){
+    let updateContract = await updateContractById(this.state.data);
+    if(updateContract.status ===200){
+      alert(updateContract.message);
+      window.location.href = this.props.location.pathname
+    }
+
+  }  
+
+  handleChangeNameConsignor =() =>{
+    let data  = this.state.data;
+    data.ten_nguoi_giao = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeSdtConsignor =() =>{
+    let data  = this.state.data;
+    data.so_dien_thoai_nguoi_giao = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeEmailConsignor =() =>{
+    let data  = this.state.data;
+    data.email_nguoi_giao = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeNameConsignee =() =>{
+    let data  = this.state.data;
+    data.ten_nguoi_nhan = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeSdtConsignee =() =>{
+    let data  = this.state.data;
+    data.so_dien_thoai_nguoi_nhan = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeEmailConsignee =() =>{
+    let data  = this.state.data;
+    data.email_nguoi_nhan = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeCarsDescription =() =>{
+    let data  = this.state.data;
+    data.mo_ta_oto = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeAmountOfCars =() =>{
+    let data  = this.state.data;
+    data.so_luong_oto = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeListOfVin =() =>{
+    let data  = this.state.data;
+    data.danh_sach_vin = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeNote =() =>{
+    let data  = this.state.data;
+    data.ghi_chu = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangePlaceOfStufging =() =>{
+    let data  = this.state.data;
+    data.diem_lay_hang = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangeLoadingDate =() =>{
+    let data  = this.state.data;
+    data.ngay_lay_hang = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangePlaceOfDelivery =() =>{
+    let data  = this.state.data;
+    data.diem_tra_hang = event.target.value
+    this.setState({data: data});
+  }
+
+  handleChangePlannedDeliveryDate =() =>{
+    let data  = this.state.data;
+    data.ngay_tra_hang = event.target.value
+    this.setState({data: data});
+  }
+
 
   async componentWillMount(){
     let data = {contract_id: this.state.contractId}
@@ -54,7 +143,6 @@ class ContractManagementDetai extends React.Component {
     if(getListDriver.length > 0){
       this.setState({listDriver:getListDriver});
     }
-
   }
 
   render() {
@@ -105,6 +193,7 @@ class ContractManagementDetai extends React.Component {
                       label="Tên người giao (Consignor)"
                       name="nameConsignor"
                       value={this.state.data.ten_nguoi_giao}
+                      onChange={this.handleChangeNameConsignor}
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -202,7 +291,7 @@ class ContractManagementDetai extends React.Component {
                 </Grid>
                </Paper>
             </Grid>
-            <Grid item xs={12}  style={{ margin:"35px 0"}} >
+            <Grid item xs={12}  style={{ margin:"35px 0 0 0"}} >
               <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
                 <Typography variant="h6" align="center" component="h1" gutterBottom>
                   Thông tin hàng hoá
@@ -294,9 +383,9 @@ class ContractManagementDetai extends React.Component {
                         fullWidth
                         id="placeOfDelivery"
                         label="Ngày lấy hàng (LoadingDate)"
-                        name="placeOfDelivery"
+                        name="LoadingDate"
                         value={this.state.data.ngay_lay_hang} 
-                        onChange={this.handleChangePlaceOfDelivery}
+                        onChange={this.handleChangeLoadingDate}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -324,9 +413,9 @@ class ContractManagementDetai extends React.Component {
                         fullWidth
                         id="placeOfDelivery"
                         label="Ngày trả hàng (Planned Delivery Date)"
-                        name="placeOfDelivery"
+                        name="PlannedDeliveryDate"
                         value={this.state.data.ngay_tra_hang} 
-                        onChange={this.handleChangePlaceOfDelivery}
+                        onChange={this.handleChangePlannedDeliveryDate}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -335,8 +424,21 @@ class ContractManagementDetai extends React.Component {
                   </Grid>
                 </Grid>
               </Paper>
-            </Grid>       
-                  
+            </Grid>   
+            <Grid item xs={12}> 
+              <Grid container direction="row" justify="center" alignItems="flex-start" >
+                <Button
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color="primary"    
+                  style={{ margin:"16px 0 0 0"}}
+                  onClick={this.handleUpdate}
+                  >
+                  Update
+                </Button>
+              </Grid> 
+            </Grid> 
             {
               this.state.listDriver.map((value, key) => {
                   return (
@@ -355,7 +457,6 @@ class ContractManagementDetai extends React.Component {
                                 label="Họ và tên"
                                 name="nameConsignee"
                                 value={value.name} 
-                                onChange={this.handleChangeNameConsignee}
                               />
                             </Grid>
                             <Grid item xs={12}>
@@ -367,7 +468,6 @@ class ContractManagementDetai extends React.Component {
                                 label="Số điện thoại (Phone Number)"
                                 name="sdtConsignee"
                                 value={value.phone_number} 
-                                onChange={this.handleChangeSdtConsignee}
                               />
                             </Grid>
                             <Grid item xs={12}>
@@ -380,7 +480,6 @@ class ContractManagementDetai extends React.Component {
                                 label="Loại xe"
                                 name="emailConsignee"
                                 value={value.car_type} 
-                                onChange={this.handleChangeEmailConsignee}
                               />
                             </Grid>
                           </Grid>

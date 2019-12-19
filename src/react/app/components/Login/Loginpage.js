@@ -86,7 +86,7 @@ class Loginpage extends React.Component {
     if(this.state.token){
       let checkTokenExpired = await  CheckToken(this.state.token);
       if(checkTokenExpired && checkTokenExpired.id){
-        window.location.href ='/home';
+        window.location.href ='/';
       }
       if(checkTokenExpired && checkTokenExpired.error.status_code === 401){
         cookies.remove('token');
