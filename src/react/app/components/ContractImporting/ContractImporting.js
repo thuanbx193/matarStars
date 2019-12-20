@@ -13,8 +13,6 @@ import {
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-  // TimePicker,
-  // DatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -24,7 +22,6 @@ import {
 }         from '../../apis';
 import {default as UUID} from "uuid";
 
-// import { makeStyles } from '@material-ui/core/styles';
 class ContractImporting extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -48,7 +45,7 @@ class ContractImporting extends React.Component {
       listOfVin:'',
       note:'',
       placeOfStufging:'',
-
+      placeOfDelivery:'',
       loadingDate:new Date(),
       plannedDeliveryDate:new Date(),
     };
@@ -106,6 +103,10 @@ class ContractImporting extends React.Component {
   handlePlannedDeliveryDate = (date) => {
     this.setState({plannedDeliveryDate: date});
   }
+  handleChangePlaceOfDelivery = (event) => {
+    this.setState({placeOfDelivery: event.target.value});
+  }
+  
 
 
   async handleSubmit(event) {
@@ -127,11 +128,9 @@ class ContractImporting extends React.Component {
         "ngay_tra_hang": this.state.plannedDeliveryDate.getDate()+"-"+this.state.plannedDeliveryDate.getMonth()+"-"+this.state.plannedDeliveryDate.getFullYear(),
         "user_email": this.state.userInfo.email,
         "status": "submitted",
-        "ghi_chu": this.state.ghi_chu
+        "ghi_chu": this.state.note
     }
     let checkInsert = await insertCarForm(param);
-    console.log(param);
-    console.log("checkInsert--",checkInsert);
     if(checkInsert.status === 201){
       alert(" SUBMIT SUCCESS");
     }else{
@@ -140,16 +139,10 @@ class ContractImporting extends React.Component {
   }
 
   async componentWillMount(){
-    const { cookies } = this.props;
     if(this.state.token){
       let checkTokenExpired = await  CheckToken(this.state.token);
       if(checkTokenExpired && checkTokenExpired.id){
         this.setState({userInfo: checkTokenExpired});
-      }
-      if(checkTokenExpired && checkTokenExpired.error.status_code === 401){
-        cookies.remove('token');
-        cookies.remove('email');
-        window.location.href ='/login';
       }
     }else{
       window.location.href ='/login';
@@ -353,7 +346,7 @@ class ContractImporting extends React.Component {
                           required
                           fullWidth
                           id="placeOfDelivery"
-                          label="Địa điểm tar hàng (Place Of Delivery)"
+                          label="Địa điểm trả hàng (Place Of Delivery)"
                           name="placeOfDelivery"
                           value={this.state.placeOfDelivery} 
                           onChange={this.handleChangePlaceOfDelivery}

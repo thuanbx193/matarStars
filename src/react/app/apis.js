@@ -1,17 +1,24 @@
-// import { post }     from "./../base/portal";
-// import config       from "../config";
-
-// export function getLocalstorage( key){
-//     return localStorage.getItem(key);
-// }
-
-// export function setLocalstorage( key, value){
-//     localStorage.setItem(key, value);
-// }
-
-// export function removeLocalstorage( key){
-//     localStorage.removeItem(key);
-// }
+export function loginAPI(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/v1/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });
+    });
+}
 
 export function CheckToken(token) {
     return new Promise(function(resolve,reject){
@@ -242,5 +249,27 @@ export function updateContractById(data) {
         .catch(err=>{
             reject(err);
         });    
+    });
+}
+
+export function deleteCarContract(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/delete_car_contract", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });
     });
 }

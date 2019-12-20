@@ -13,7 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import {CheckToken} from '../../apis';
+import {
+  CheckToken,
+  loginAPI
+} from '../../apis';
 
 
 class Loginpage extends React.Component {
@@ -48,7 +51,7 @@ class Loginpage extends React.Component {
   }
 
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
   	event.preventDefault();
     const { cookies } = this.props;
     if(!this.state.email){
@@ -57,26 +60,20 @@ class Loginpage extends React.Component {
     if(!this.state.password){
     	this.setState({passwordError:1})
     }
-    if(this.state.email && this.state.password){
-      fetch("https://matarstars.com/v1/api/auth/login", {
-          headers: {
-            'Content-Type'  : 'application/json'
-          },
-          method: 'POST', 
-          body:JSON.stringify(this.state)
-      })
-      .then(response => response.json()) 
-      .then((responseJson) => {
-        cookies.set('token', responseJson.token, { path: '/' });
-        cookies.set('email', this.state.email, { path: '/' });
-        window.location.href ='/home';
-      })
-      .catch((error) => {
-          console.log(error);
-      });    
-
-    }
-    
+    let checkLogin = await loginAPI({
+        email:this.state.email,
+        password:this.state.password
+      });
+    console.log("checkLogin--",checkLogin);
+    if(checkLogin.token){
+      cookies.set('token', checkLogin.token, { path: '/' });
+      cookies.set('email', this.state.email, { path: '/' });
+      window.location.href ='/contractimporting';
+    }else{
+      alert("Vui lòng đăng nhập lại");
+      this.setState({emailError:1});
+      this.setState({passwordError:1});
+    }   
   }
 
   async componentWillMount(){

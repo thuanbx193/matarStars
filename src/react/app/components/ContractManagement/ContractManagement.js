@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 
 import {
   getCarFormSubmit,
-  CheckToken
+  CheckToken,
+  deleteCarContract
 }         from '../../apis';
 import { withCookies, Cookies } from 'react-cookie';
 
@@ -30,6 +31,7 @@ class ContractManagement extends React.Component {
       ],
       data: [],
     };   
+    this.handleDeleteContract = this.handleDeleteContract.bind(this);
   }
   async componentWillMount(){
     let checkTokenExpired = await  CheckToken(this.state.token);
@@ -41,6 +43,17 @@ class ContractManagement extends React.Component {
     if(check.length >0){
       this.setState({data:check});
     }    
+  }
+
+  async handleDeleteContract(contractId){
+    let data = {contract_id:contractId}  
+    let checkDel = await deleteCarContract(data);
+    if(checkDel.status && checkDel.status === 200){
+      alert("Delete thành công");
+      window.location.href = this.props.location.pathname
+    }else{
+      alert("Delete thất bại");
+    }
   }
 
   render() {
@@ -60,7 +73,12 @@ class ContractManagement extends React.Component {
            {
             icon: 'delete',
             tooltip: 'delete',
-            onClick: (event, rowData) => window.confirm("Bạn có muốn xoá contract này?")
+            onClick: (event, rowData) => {
+              let confirm = window.confirm("Bạn có muốn xoá contract này?");
+              if(confirm){
+                this.handleDeleteContract(rowData.contract_id);
+              }
+            }
           }          
         ]}
         components={{
