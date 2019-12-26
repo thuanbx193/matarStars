@@ -273,3 +273,135 @@ export function deleteCarContract(data) {
         });
     });
 }
+
+export function getListDriver(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/get_list_driver", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function updateDriverByEmail(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/update_driver_by_email", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function getListVehicle(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/get_list_vehicle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function getVehicleInfo(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/get_vehicle_info", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function updateVehicle(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/update_vehicle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}
+
+export function createVehicle(data) {
+    return new Promise(function(resolve,reject){
+        fetch("https://matarstars.com/flask/create_vehicle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => 
+            response.json().then(data => ({
+                data: data,
+                status: response.status
+            })
+        ).then(res => {
+            resolve(res.data);
+        }))
+        .catch(err=>{
+            reject(err);
+        });    
+    });
+}

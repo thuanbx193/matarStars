@@ -5,3 +5,5 @@ export * from "./Login";
 export * from "./Head";
 export * from "./QrManagement";
 export * from "./NotFound";
+export * from "./DriverManagement";
+export * from "./TruckManagement";

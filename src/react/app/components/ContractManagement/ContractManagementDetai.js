@@ -15,6 +15,7 @@ import {
 
 import {
   getinfoByContractId,
+  updateContractStatus,
   getListDriverByContractId,
   updateContractById
 }         from '../../apis';
@@ -30,9 +31,11 @@ class ContractManagementDetai extends React.Component {
     this.state={
       token: cookies.get('token'),
       contractId:props.match.params.id,
+      statusUpdate:'',      
       data:{},
       listDriver:[],
     };
+    this.handleSubmitStatusUpdate=this.handleSubmitStatusUpdate.bind(this);
     this.handleUpdate=this.handleUpdate.bind(this);
     
   }
@@ -132,6 +135,27 @@ class ContractManagementDetai extends React.Component {
     this.setState({data: data});
   }
 
+  handleChangeStatusUpdate = (event)=> {
+    this.setState({statusUpdate: event.target.value});
+  }
+  
+  async handleSubmitStatusUpdate(event){
+    event.preventDefault();
+    if(!this.state.statusUpdate){
+      alert("Vui lòng điền trạng thái");
+      return
+    }
+    let data = {
+        contract_id:this.state.contractId,
+        status:this.state.statusUpdate
+      }
+      let checkUpdate = await updateContractStatus(data);
+      if(checkUpdate.status===201){
+        alert("Update trạng thái thành công");
+      }else{
+        alert("Update trạng thái thất bại");
+      }
+  }
 
   async componentWillMount(){
     let data = {contract_id: this.state.contractId}
@@ -490,6 +514,38 @@ class ContractManagementDetai extends React.Component {
             }        
           </Grid>
         </div>
+        <Grid item xs={6} alignItems="stretch">
+          <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmitStatusUpdate}  noValidate>             
+           <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
+            <Typography variant="h4" align="center" component="h1" gutterBottom>
+              Cập nhật trạng thái đơn hàng
+            </Typography>
+            <Grid container alignItems="flex-start" spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  variant="outlined"
+                  id="statusUpdate"
+                  label="Trạng thái"
+                  name="statusUpdate"
+                  value={this.state.statusUpdate} 
+                  onChange={this.handleChangeStatusUpdate}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              size="large"
+              type="submit"
+              variant="contained"
+              color="primary"    
+              style={{ margin:"16px 0 0 0"}}       
+              >
+              SUBMIT
+            </Button>
+           </Paper>                
+          </form>
+        </Grid>
       </Container>
     );
   }

@@ -86,6 +86,12 @@ class Headpage extends React.Component {
     if(pathName.indexOf("qrmanagement") > -1){
       this.setState({value:2})
     }
+    if(pathName.indexOf("drivermanagement") > -1){
+      this.setState({value:3})
+    }
+    if(pathName.indexOf("truckmanagement") > -1){
+      this.setState({value:4})
+    }
     if(pathName !=='/login'){
        const { cookies } = this.props;
       if(this.state.token){
@@ -118,6 +124,8 @@ class Headpage extends React.Component {
               <LinkTab label="Contract Importing" href="/contractimporting"   {...a11yProps(0)} />
               <LinkTab label="Contract Management "  href="/contractmanagement"  {...a11yProps(1)} />
               <LinkTab label="QR Management" href="/qrmanagement"  {...a11yProps(2)} />
+              <LinkTab label="Driver Management" href="/drivermanagement"  {...a11yProps(3)} />
+              <LinkTab label="Truck Management" href="/truckmanagement"  {...a11yProps(4)} />
               <LinkTab disabled label={welcome}/>
             </Tabs>
           </AppBar>

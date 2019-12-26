@@ -15,7 +15,12 @@ import {
     ContractManagementDetai,
     QrManagement,
     QrManagementDetai,
-    NotFound
+    NotFound,
+    DriverManagement,
+    DriverManagementDetai,
+    TruckManagement,
+    TruckManagementDetai
+
 }                           from "../app";
 
 const Routes = () => {
@@ -32,6 +37,10 @@ const Routes = () => {
         <Route exact path="/contractmanagementdetai/:id"       component={ContractManagementDetai}/>
         <Route exact path="/qrmanagement"             component={QrManagement}/>
         <Route exact path="/qrmanagementdetai/:id"             component={QrManagementDetai}/>
+        <Route exact path="/drivermanagement"             component={DriverManagement}/>
+        <Route exact path="/drivermanagementdetai/:email"             component={DriverManagementDetai}/>
+        <Route exact path="/truckmanagement"             component={TruckManagement}/>
+        <Route exact path="/truckmanagementdetai/:bienso"             component={TruckManagementDetai}/>
         <Route exact path="/not-found"             component={NotFound}/>
 
         <Redirect to="/not-found" />

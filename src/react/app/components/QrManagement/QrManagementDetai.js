@@ -16,8 +16,7 @@ import {
 import {
   findDriver,
   assignDriver,
-  updateContractStatus,
-  createDriver,
+  // createDriver,
   getListDriverByContractId,
   getinfoByContractId
 }         from '../../apis';
@@ -38,7 +37,6 @@ class QrManagementDetai extends React.Component {
       listDriver:[],
       driverEmail:'',
       driverEmailQR:'',
-      statusUpdate:'',
       addDriverName:'',
       addDriverEmail:'',
       addDriverSDT:'',
@@ -48,56 +46,38 @@ class QrManagementDetai extends React.Component {
     
     this.handleSubmitSeach=this.handleSubmitSeach.bind(this);
     this.handleSubmitAssign=this.handleSubmitAssign.bind(this);
-    this.handleSubmitStatusUpdate=this.handleSubmitStatusUpdate.bind(this);
-    this.handleSubmitAddDriver=this.handleSubmitAddDriver.bind(this);
+    // this.handleSubmitAddDriver=this.handleSubmitAddDriver.bind(this);
   }
 
-  async handleSubmitAddDriver(event){
-    event.preventDefault();
-    if(!this.state.addDriverName || !this.state.addDriverSDT || !this.state.addDriverType || !this.state.addDriverEmail){
-      alert("Vui lòng điền đủ thông tin");
-      return
-    }
-    let data = {
-           name: this.state.addDriverName,
-           phone_number: this.state.addDriverSDT,
-           car_type: this.state.addDriverType,
-           driver_email: this.state.addDriverEmail    
-    }
-    let checkAddDriver = await createDriver(data);
-    if(checkAddDriver.status===201){
-      alert("Thêm lái xe thành công");
-    }else{
-      alert("Thêm lái xe thất bại");
-    }
-  }
-
-  async handleSubmitStatusUpdate(event){
-    event.preventDefault();
-    if(!this.state.statusUpdate){
-      alert("Vui lòng điền trạng thái");
-      return
-    }
-    let data = {
-        contract_id:this.state.contractId,
-        status:this.state.statusUpdate
-      }
-      let checkUpdate = await updateContractStatus(data);
-      if(checkUpdate.status===201){
-        alert("Update trạng thái thành công");
-      }else{
-        alert("Update trạng thái thất bại");
-      }
-  }
+  // async handleSubmitAddDriver(event){
+  //   event.preventDefault();
+  //   if(!this.state.addDriverName || !this.state.addDriverSDT || !this.state.addDriverType || !this.state.addDriverEmail){
+  //     alert("Vui lòng điền đủ thông tin");
+  //     return
+  //   }
+  //   let data = {
+  //          name: this.state.addDriverName,
+  //          phone_number: this.state.addDriverSDT,
+  //          car_type: this.state.addDriverType,
+  //          driver_email: this.state.addDriverEmail    
+  //   }
+  //   let checkAddDriver = await createDriver(data);
+  //   if(checkAddDriver.status===201){
+  //     alert("Thêm lái xe thành công");
+  //   }else{
+  //     alert("Thêm lái xe thất bại");
+  //   }
+  // }
 
   async handleSubmitSeach(event){
     event.preventDefault();
     let data = {driver_email: this.state.driverEmail}
     let find = await findDriver(data);
+    console.log(find)
     if(find.status === 400){
       alert("xin lỗi không tìm thấy email tài xế yêu cầu,\n vui lòng nhập lại");
     }else{
-      alert("Thông tin tài xế \n Tên:"+find.name+" \n SĐT:"+find.phone_number+"\n Loại xe: "+ find.car_type);
+      alert("Thông tin tài xế \n Tên:  "+find.ho_va_ten+" \n SĐT:  "+find.so_dien_thoai+"\n Biển số xe : "+ find.phuong_tien_dieu_khien+"\n Địa chỉ:  "+find.dia_chi);
     }
   }
 
@@ -129,22 +109,19 @@ class QrManagementDetai extends React.Component {
   }
   handleChangeDriverEmailQR = (event)=> {
     this.setState({driverEmailQR: event.target.value});
-  }
-  handleChangeStatusUpdate = (event)=> {
-    this.setState({statusUpdate: event.target.value});
-  }
-  handleChangeAddDriverName = (event)=> {
-    this.setState({addDriverName: event.target.value});
-  }
-  handleChangeAddDriverEmail = (event)=> {
-    this.setState({addDriverEmail: event.target.value});
-  }
-  handleChangeAddDriverSDT = (event)=> {
-    this.setState({addDriverSDT: event.target.value});
-  }
-  handleChangeAddDriverType = (event)=> {
-    this.setState({addDriverType: event.target.value});
-  }
+  }  
+  // handleChangeAddDriverName = (event)=> {
+    // this.setState({addDriverName: event.target.value});
+  // }
+  // handleChangeAddDriverEmail = (event)=> {
+    // this.setState({addDriverEmail: event.target.value});
+  // }
+  // handleChangeAddDriverSDT = (event)=> {
+    // this.setState({addDriverSDT: event.target.value});
+  // }
+  // handleChangeAddDriverType = (event)=> {
+    // this.setState({addDriverType: event.target.value});
+  // }
   async componentWillMount(){
     let getListDriver = await getListDriverByContractId({contract_id:this.state.contractId});
     let getInfo = await getinfoByContractId({contract_id: this.state.contractId});
@@ -249,108 +226,7 @@ class QrManagementDetai extends React.Component {
                 </Button>
                </Paper>                
               </form>
-            </Grid>
-            <Grid item xs={6}>
-              <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmitAddDriver}  noValidate>             
-               <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
-                <Typography variant="h4" align="center" component="h1" gutterBottom>
-                  Thêm Lái Xe
-                </Typography>
-                <Grid container alignItems="flex-start" spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      variant="outlined"
-                      id="addDriverName"
-                      label="Name"
-                      name="nameConsignor"
-                      value={this.state.addDriverName} 
-                      onChange={this.handleChangeAddDriverName}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      variant="outlined"
-                      id="addDriverEmail"
-                      label="Driver Email"
-                      name="nameConsignor"
-                      value={this.state.addDriverEmail} 
-                      onChange={this.handleChangeAddDriverEmail}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      variant="outlined"
-                      id="addDriverSDT"
-                      label="SĐT"
-                      name="nameConsignor"
-                      type="number"
-                      value={this.state.addDriverSDT} 
-                      onChange={this.handleChangeAddDriverSDT}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      variant="outlined"
-                      id="addDriverType"
-                      label="Loại Xe"
-                      name="nameConsignor"
-                      value={this.state.addDriverType} 
-                      onChange={this.handleChangeAddDriverType}
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="primary"    
-                  style={{ margin:"16px 0 0 0"}}       
-                  >
-                  SUBMIT
-                </Button>
-               </Paper>                
-              </form>
-            </Grid>
-            <Grid item xs={6} alignItems="stretch">
-              <form style={{ width: '100%',marginTop:"8px"}} onSubmit={this.handleSubmitStatusUpdate}  noValidate>             
-               <Paper style={{ padding:"20px", textAlign: 'center', color:"#000", }}>
-                <Typography variant="h4" align="center" component="h1" gutterBottom>
-                  Cập nhật trạng thái đơn hàng
-                </Typography>
-                <Grid container alignItems="flex-start" spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      variant="outlined"
-                      id="statusUpdate"
-                      label="Trạng thái"
-                      name="statusUpdate"
-                      value={this.state.statusUpdate} 
-                      onChange={this.handleChangeStatusUpdate}
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="primary"    
-                  style={{ margin:"16px 0 0 0"}}       
-                  >
-                  SUBMIT
-                </Button>
-               </Paper>                
-              </form>
-            </Grid>
+            </Grid>            
             <Grid item xs={12} style={{margin:"16px 0 0 0"}}>
               <Typography variant="h4" align="center" component="h1" gutterBottom>
                 Danh sách lái xe đã gán
